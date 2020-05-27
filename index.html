@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Meetup timer</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-image: url("sasha.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: top left;
+    }
+
+    .speaker-timer {
+      font-size: 90px;
+      color: #E41C40;
+      position: absolute;
+      right: 10%;
+      padding: 20px 50px;
+      background-color: #ffffff;
+      text-align: center;
+      border-radius: 5px;
+      width: 400px;
+      font-family: Calibri, sans-serif;
+      border: 3px solid #E41C40;
+      line-height: 1;
+    }
+
+    /* второй таймер сместила для демонстрации */
+    .timer2 {
+      top: 200px;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="speaker-timer timer1"></div>
+  <div class="speaker-timer timer2"></div>
+
+  <script>
+
+    /**
+     * Source: https://prognote.ru/web-dev/front-end/how-to-do-a-countdown-in-javascript-or-a-timer/
+     */
+
+    function diffSubtract(date1, date2) {
+        return date2 - date1;
+    }
+
+    function runSpeakerTimer(speakerDate, timerWrapper) {
+        let timer = setInterval(function () {
+            let dateNow = new Date();
+            let dateEnd = new Date(speakerDate);
+            let timeLeft = diffSubtract(dateNow, dateEnd);
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                timerWrapper.innerHTML = 'Поехали!';
+            } else {
+                let res = new Date(timeLeft);
+                timerWrapper.innerHTML = `${res.getUTCHours()}:${res.getUTCMinutes()}:${res.getUTCSeconds()}`;
+            }
+        }, 1000);
+    }
+
+
+    const timer1Wrap = document.querySelector('.timer1');
+    const timer2Wrap = document.querySelector('.timer2');
+
+    const speaker1DateInfo = {
+        "full_year": "2020",
+        "month": "05",
+        "day": "28",
+        "hours": "19",
+        "minutes": "55",
+        "seconds": "00"
+    };
+
+    const speaker2DateInfo = {
+        "full_year": "2020",
+        "month": "05",
+        "day": "28",
+        "hours": "20",
+        "minutes": "25",
+        "seconds": "00"
+    };
+
+    let speaker1Date = `${speaker1DateInfo.full_year}-${speaker1DateInfo.month}-${speaker1DateInfo.day}T${speaker1DateInfo.hours}:${speaker1DateInfo.minutes}:${speaker1DateInfo.seconds}`;
+    let speaker2Date = `${speaker2DateInfo.full_year}-${speaker2DateInfo.month}-${speaker2DateInfo.day}T${speaker2DateInfo.hours}:${speaker2DateInfo.minutes}:${speaker2DateInfo.seconds}`;
+
+    runSpeakerTimer(speaker1Date, timer1Wrap);
+    runSpeakerTimer(speaker2Date, timer2Wrap);
+
+  </script>
+
+</body>
+</html>
